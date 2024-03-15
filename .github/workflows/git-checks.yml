@@ -15,7 +15,7 @@ jobs:
     - name: check commits
       run: |
         COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-        PATTERN="^\[(OPS|DEVOPS|PRO)-\d{0,9}\] [A-Za-z0-9 ]{1,50}$"
+        PATTERN="^\[(OPS|DEVOPS|PRO)-\\d{0,9}\] [A-Za-z0-9 ]{1,50}$"
         echo "Commit Messages"
         for commit in "${COMMIT_MESSAGES[@]}"; do
           echo "$commit"
