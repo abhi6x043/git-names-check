@@ -12,7 +12,7 @@ jobs:
 
     - name: check commits
       run: |
-        if [ -z "060a15f89c60a85b6eec9b09f25d5309db6452ee" ]; then
+        if [ -z ${{ github.event.before }} ]; then
           COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.sha }})
         else
           COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
