@@ -10,17 +10,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 20
-
-    - name: Git log
-      run: git log --oneline    
+        fetch-depth: 0
 
     - name: check commits
       run: |
         COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-
-        # Loop through each commit message and echo it
-        echo "Commit Messages:"
+        PATTERN="^\[(OPS|DEVOPS|PRO)-\d{1,5}\] [A-Za-z0-9 ]{1,50}$"
+        echo "Commit Messages"
         for commit in "${COMMIT_MESSAGES[@]}"; do
           echo "$commit"
+          if [[ ! "$COMMIT_MESSAGES" =~ $PATTERN ]]; then
+            echo "Invalid commit message format. Sample format: '[OPS-12345] commit message with no special characters'"
         done
