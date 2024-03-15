@@ -12,7 +12,8 @@ jobs:
 
     - name: check commits
       run: |
-        COMMIT_COUNT = ${{ github.event.commits.length }}
+        COMMIT_COUNT = $(echo ${{ github.event.commits.message }} | wc -l)
+        echo $COMMIT_COUNT
         COMMIT_MSGS = $(git log -n $COMMIT_COUNT --pretty=format:"%s")
         for commit in $COMMIT_MSGS; do
           echo $commit
