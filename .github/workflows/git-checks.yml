@@ -18,7 +18,7 @@ jobs:
         PATTERN="^\[(OPS|DEVOPS|PRO)-[0-9]{0,9}\] [A-Za-z0-9 ._-]{1,50}$"
 
         echo "Commit Messages:"
-        for commit in "${COMMIT_MESSAGES[@]}"; do
+        for commit in "${COMMIT_MESSAGES[@]}"; do #adding comment
           echo "$commit"
           if ! echo "$commit" | grep -qE "$PATTERN"; then
             echo "Invalid commit message format. Please follow format: '[OPS-12345] updated test-file.yml'"
