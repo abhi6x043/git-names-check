@@ -12,7 +12,8 @@ jobs:
 
     - name: check commits
       run: |
-        COMMIT_MSGS = $(git log --pretty=format:"%s" ${{ github.event.after }}..${{ github.event.before }})
-        for commit in $COMMIT_MSGS; do
+        #COMMIT_MSGS = $(git log --pretty=format:"%s" ${{ github.event.after }}..${{ github.event.before }})
+        COMMIT_MESSAGES=$(git log --format=%B ${{ github.event.before }}..${{ github.sha }})
+        for commit in $COMMIT_MESSAGES; do
           echo $commit
         done
