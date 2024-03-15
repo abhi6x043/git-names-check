@@ -12,8 +12,10 @@ jobs:
 
     - name: check commits
       run: |
-        #COMMIT_MSGS = $(git log --pretty=format:"%s" ${{ github.event.after }}..${{ github.event.before }})
-        COMMIT_MESSAGES==$(git log --format=%B ${{ github.sha }})
+        if [ -z "${{ github.event.before }}" ]; then
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.sha }})
+        else
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
         for commit in $COMMIT_MESSAGES; do
           echo $commit
         done
