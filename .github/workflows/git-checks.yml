@@ -1,0 +1,17 @@
+name: Testing Git checks
+
+on: push
+
+jobs:
+  git-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: check commits
+      run: |
+        for commit in ${{ github.event.commits.message }} ; do
+          echo $commit
+        done
