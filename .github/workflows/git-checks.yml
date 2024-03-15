@@ -10,17 +10,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: check commits
-      run: |
-        if [ -z ${{ github.event.before }} ]; then
-          COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.sha }})
-        else
-          COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-        fi
+    # - name: check commits
+    #   run: |
+    #     if [ -z ${{ github.event.before }} ]; then
+    #       COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.sha }})
+    #     else
+    #       COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
+    #     fi
       
-        # Loop through each commit message and echo it
-        echo "Commit Messages:"
-        for commit in "${COMMIT_MESSAGES[@]}"; do
-          echo "$commit"
-        done
+    #     # Loop through each commit message and echo it
+    #     echo "Commit Messages:"
+    #     for commit in "${COMMIT_MESSAGES[@]}"; do
+    #       echo "$commit"
+    #     done
       
+    - name: Git log
+      run: git log --oneline
