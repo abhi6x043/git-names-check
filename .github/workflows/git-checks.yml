@@ -12,10 +12,15 @@ jobs:
 
     - name: check commits
       run: |
-        if [ -z "${{ github.event.before }}" ]; then
+        if [ -z "060a15f89c60a85b6eec9b09f25d5309db6452ee" ]; then
           COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.sha }})
         else
           COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-        for commit in $COMMIT_MESSAGES; do
-          echo $commit
+        fi
+      
+        # Loop through each commit message and echo it
+        echo "Commit Messages:"
+        for commit in "${COMMIT_MESSAGES[@]}"; do
+          echo "$commit"
         done
+      
