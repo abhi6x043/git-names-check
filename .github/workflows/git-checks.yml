@@ -19,7 +19,8 @@ jobs:
         echo "Commit Messages"
         for commit in "${COMMIT_MESSAGES[@]}"; do
           echo "$commit"
-          if [[ ! $commit =~ $PATTERN ]]; then
+          if [[ ! "$commit" =~ $PATTERN ]]; then
             echo "Invalid commit message format. Sample format: '[OPS-12345] commit message with no special characters'"
+            exit 1
           fi
         done
