@@ -15,12 +15,12 @@ jobs:
     - name: check commits
       run: |
         COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
-        PATTERN="^\[(OPS|DEVOPS|PRO)-\d{0,9}\] [A-Za-z0-9 ]{1,50}$"
+        PATTERN="^\[(OPS|DEVOPS|PRO)-[0-9]{0,9}\] [A-Za-z0-9 ._-]{1,50}$"
         echo "Commit Messages:"
         for commit in $COMMIT_MESSAGES; do
           echo "$commit"
           if ! echo "$commit" | grep -qE "$PATTERN"; then
-            echo "Invalid commit message format. Please follow format: '[OPS-12345] commit message with no special characters'"
+            echo "Invalid commit message format. Please follow format: '[OPS-12345] updated test-file.yml'\n'[DEVOPS-123] updated file_nmme.py'\n'[PRO-7890] updated function'"
             exit 1
           fi
         done
