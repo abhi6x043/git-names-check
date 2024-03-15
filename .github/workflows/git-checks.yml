@@ -12,7 +12,4 @@ jobs:
 
     - name: check commits
       run: |
-        # for commit in "${{ github.event.commits }}" ; do
-        #   echo $commit
-        # done
-        echo ${{ github.event.commits.message }}
+        echo $(git log --pretty=format:"%s" ${{ github.event.after }}..${{ github.event.before }})
