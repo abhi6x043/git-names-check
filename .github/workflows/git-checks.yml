@@ -12,6 +12,7 @@ jobs:
 
     - name: check commits
       run: |
-        for commit in "${{ github.event.commits }}" ; do
-          echo $commit
-        done
+        # for commit in "${{ github.event.commits }}" ; do
+        #   echo $commit
+        # done
+        echo ${{ github.event.commits.message }}
