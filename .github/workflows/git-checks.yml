@@ -10,7 +10,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 20
 
     - name: check commits
       id: check-commits
@@ -35,6 +35,10 @@ jobs:
         TICKET_ID=$(echo $LATEST_COMMIT | awk -F '[][]' '{print $2}')
         COMMIT_MESSAGE=$(echo $LATEST_COMMIT | sed "s/\[$TICKET_ID\] //")
         
+        if echo $LATEST_COMMIT | grep "^Merge"; then
+          exit 0
+        fi
+
         if ! grep -qE "\[$TICKET_ID\]" ./CHANGELOG/${TICKET_ID}.md && ! grep -q "$COMMIT_MESSAGE" ./CHANGELOG/${TICKET_ID}.md; then
           echo "Ticket ID and commit message in changelog does not match/exists"
           exit 1
