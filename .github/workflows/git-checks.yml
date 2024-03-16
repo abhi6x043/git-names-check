@@ -22,8 +22,8 @@ jobs:
         for commit in "${COMMIT_MESSAGES[@]}"; do #adding comment
           echo "$commit"
           if ! echo "$commit" | grep -qE "$PATTERN"; then
-            echo "Invalid commit message format."
-            printf "[OPS-123] some message\n[DEVOPS-234] updated git_check.py\n[OPS-235] updated dep-pom.xml\n"
+            printf "\nInvalid commit message format."
+            printf "\nPlease follow the commit message formats:\n[OPS-123] some message\n[DEVOPS-234] updated git_check.py\n[OPS-235] updated dep-pom.xml\n"
             exit 1
           fi
         done
