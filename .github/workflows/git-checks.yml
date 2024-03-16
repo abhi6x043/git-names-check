@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 10
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -17,7 +17,7 @@ jobs:
         COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.before }}..${{ github.sha }})
         PATTERN="^\[(OPS|DEVOPS|PRO)-[0-9]{0,9}\] [A-Za-z0-9 ._-]{1,50}$"
 
-        echo "Commit Messages:"
+        echo "____Commit Messages____"
         for commit in "${COMMIT_MESSAGES[@]}"; do #adding comment
           echo "$commit"
           if ! echo "$commit" | grep -qE "$PATTERN"; then
@@ -25,4 +25,13 @@ jobs:
             exit 1
           fi
         done
-  
+
+    - name: check Changelog
+      run: |
+        LATEST_COMMIT=$(git log --pretty=format:"%s" -n 1)
+        TICKET_ID=$(echo $LATEST_COMMIT | awk -F '[][]' '{print $2}')
+        COMMIT_MESSAGE=$(echo $LATEST_COMMIT | sed "s/\[$TICKET_ID\] //")
+        
+        if ! grep -E "\[$TICKET_ID\]|$COMMIT_MESSAGE" ./CHANGELOG/${TICKET_ID}.md; then
+          echo "Ticket ID in commit message and changelog does not match/exists"
+        fi
