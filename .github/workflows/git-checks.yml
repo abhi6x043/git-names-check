@@ -21,7 +21,13 @@ jobs:
         for commit in "${COMMIT_MESSAGES[@]}"; do #adding comment
           echo "$commit"
           if ! echo "$commit" | grep -qE "$PATTERN"; then
-            echo "Invalid commit message format. Please follow format: '[OPS-12345] updated test-file.yml'"
+            echo "Invalid commit message format."
+            printf "[OPS-123] some message\n[DEVOPS-234] updated git_check.py\n[OPS-235] updated dep-pom.xml\n"
+            cat << EOL
+            [OPS-123] cat some message
+            [DEVOPS-234] updated git_check.py
+            [OPS-235] updated dep-pom.xml
+            EOL
             exit 1
           fi
         done
@@ -32,7 +38,8 @@ jobs:
         TICKET_ID=$(echo $LATEST_COMMIT | awk -F '[][]' '{print $2}')
         COMMIT_MESSAGE=$(echo $LATEST_COMMIT | sed "s/\[$TICKET_ID\] //")
         
-        if ! grep -Pz "\\[$TICKET_ID\\].*${COMMIT_MESSAGE}" ./CHANGELOG/${TICKET_ID}.md; then
+        if ! grep -qE "\[$TICKET_ID\]" ./CHANGELOG/${TICKET_ID}.md && ! grep -q "$COMMIT_MESSAGE" ./CHANGELOG/${TICKET_ID}.md; then
           echo "Ticket ID and commit message in changelog does not match/exists"
           exit 1
         fi
+    
