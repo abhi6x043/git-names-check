@@ -1,0 +1,1 @@
+# [DEVOPS-234] checks for changelog added
